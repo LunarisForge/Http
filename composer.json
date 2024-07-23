@@ -1,0 +1,23 @@
+{
+    "name": "lunaris-forge/http",
+    "version": "0.0.1",
+    "description": "Handles the processing of HTTP requests and responses.",
+    "type": "library",
+    "autoload": {
+        "psr-4": {
+            "LunarisForge\\Http\\": "src/Http"
+        }
+    },
+    "authors": [
+        {
+            "name": "Slatyo",
+            "email": "daniel.henze@outlook.com"
+        }
+    ],
+    "require-dev": {
+        "php": "^8.3",
+        "phpstan/phpstan": "^1.11",
+        "phpunit/phpunit": "^11.2",
+        "phpunit/php-code-coverage": "^11.0"
+    }
+}
