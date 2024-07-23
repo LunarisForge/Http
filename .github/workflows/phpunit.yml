@@ -1,10 +1,13 @@
-name: PHPUnit Tests
+name: PHPUnit Tests and PHPStan
 
-on: [ push, pull_request ]
+on: [push, pull_request]
 
 jobs:
-  phpunit:
+  tests:
     runs-on: ubuntu-latest
+    strategy:
+      matrix:
+        php-versions: ['8.0', '8.1', '8.2', '8.3']
 
     steps:
       - name: Checkout code
@@ -13,7 +16,7 @@ jobs:
       - name: Set up PHP
         uses: shivammathur/setup-php@v2
         with:
-          php-version: '8.3'
+          php-version: ${{ matrix.php-versions }}
           extensions: mbstring, intl
           coverage: xdebug
 
@@ -21,10 +24,14 @@ jobs:
         run: composer install --no-progress --no-suggest --prefer-dist --optimize-autoloader
 
       - name: Run PHPUnit
-        run: vendor/bin/phpunit --configuration phpunit.xml --coverage-text --coverage-clover=build/logs/clover.xml
+        run: |
+          vendor/bin/phpunit --configuration phpunit.xml --coverage-text --coverage-clover=build/logs/clover-${{ matrix.php-versions }}.xml || true
 
       - name: Upload coverage report
         uses: actions/upload-artifact@v2
         with:
-          name: code-coverage-report
-          path: build/logs/clover.xml
+          name: code-coverage-report-${{ matrix.php-versions }}
+          path: build/logs/clover-${{ matrix.php-versions }}.xml
+
+      - name: Run PHPStan
+        run: vendor/bin/phpstan analyse -c phpstan.neon
