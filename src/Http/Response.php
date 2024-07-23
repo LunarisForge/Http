@@ -5,23 +5,11 @@ namespace LunarisForge\Http;
 class Response
 {
     /**
-     * @var string
-     */
-    protected string $content;
-
-    /**
-     * @var int
-     */
-    protected int $status;
-
-    /**
      * @param  string  $content
-     * @param  int  $status
+     * @param  int  $statusCode
      */
-    public function __construct(string $content, int $status = 200)
+    public function __construct(protected string $content, protected int $statusCode = 200)
     {
-        $this->content = $content;
-        $this->status = $status;
     }
 
     /**
@@ -29,7 +17,23 @@ class Response
      */
     public function send(): void
     {
-        http_response_code($this->status);
+        http_response_code($this->getStatusCode());
         echo $this->content;
+    }
+
+    /**
+     * @return string
+     */
+    public function getContent(): string
+    {
+        return $this->content;
+    }
+
+    /**
+     * @return int
+     */
+    public function getStatusCode(): int
+    {
+        return $this->statusCode;
     }
 }
