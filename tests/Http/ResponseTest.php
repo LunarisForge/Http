@@ -10,19 +10,22 @@ class ResponseTest extends TestCase
     /**
      * @return void
      */
-    public function testConstructorSetsContentAndStatus(): void
+    public function testGetContent(): void
+    {
+        $response = new Response('Test content');
+        $this->assertEquals('Test content', $response->getContent());
+    }
+
+    /**
+     * @return void
+     */
+    public function testGetStatusCode(): void
     {
         $response = new Response('Test content', 404);
+        $this->assertEquals(404, $response->getStatusCode());
 
-        $reflection = new \ReflectionClass($response);
-
-        $contentProperty = $reflection->getProperty('content');
-        $contentProperty->setAccessible(true);
-        $this->assertEquals('Test content', $contentProperty->getValue($response));
-
-        $statusProperty = $reflection->getProperty('status');
-        $statusProperty->setAccessible(true);
-        $this->assertEquals(404, $statusProperty->getValue($response));
+        $response = new Response('Test content');
+        $this->assertEquals(200, $response->getStatusCode());
     }
 
     /**
