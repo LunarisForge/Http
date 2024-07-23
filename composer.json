@@ -1,8 +1,8 @@
 {
     "name": "lunaris-forge/http",
-    "version": "0.0.1",
     "description": "Handles the processing of HTTP requests and responses.",
     "type": "library",
+    "license": "MIT",
     "autoload": {
         "psr-4": {
             "LunarisForge\\Http\\": "src/Http"
