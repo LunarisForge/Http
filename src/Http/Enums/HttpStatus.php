@@ -75,6 +75,12 @@ enum HttpStatus: int
     case NOT_EXTENDED = 510;
     case NETWORK_AUTHENTICATION_REQUIRED = 511;
 
+    /**
+     * Logical shortcut for e.g. {@see HttpStatus::OK->getValue()} becomes
+     * {@see HttpStatus::OK->code()}
+     *
+     * @return int
+     */
     public function code(): int
     {
         return $this->value;
