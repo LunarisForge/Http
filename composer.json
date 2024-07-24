@@ -1,24 +1,27 @@
 {
-    "name": "lunaris-forge/http",
-    "description": "Handles the processing of HTTP requests and responses.",
-    "type": "library",
-    "license": "MIT",
-    "autoload": {
-        "psr-4": {
-            "LunarisForge\\Http\\": "src/Http"
-        }
-    },
-    "authors": [
-        {
-            "name": "Slatyo",
-            "email": "daniel.henze@outlook.com"
-        }
-    ],
-    "require-dev": {
-        "php": "^8.3",
-        "phpstan/phpstan": "^1.11",
-        "phpunit/phpunit": "^11.2",
-        "phpunit/php-code-coverage": "^11.0",
-        "squizlabs/php_codesniffer": "3.*"
+  "name": "lunaris-forge/http",
+  "description": "Handles the processing of HTTP requests and responses.",
+  "type": "library",
+  "license": "MIT",
+  "autoload": {
+    "psr-4": {
+      "LunarisForge\\Http\\": "src/Http"
     }
+  },
+  "authors": [
+    {
+      "name": "Slatyo",
+      "email": "daniel.henze@outlook.com"
+    }
+  ],
+  "require": {
+    "ext-mbstring": "*"
+  },
+  "require-dev": {
+    "php": "^8.3",
+    "phpstan/phpstan": "^1.11",
+    "phpunit/phpunit": "^11.2",
+    "phpunit/php-code-coverage": "^11.0",
+    "squizlabs/php_codesniffer": "3.*"
+  }
 }
