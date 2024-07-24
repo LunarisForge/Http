@@ -1,6 +1,6 @@
 name: PSR12
 
-on: [ push, pull_request ]
+on: [ pull_request ]
 
 jobs:
   phpcs:
