@@ -4,7 +4,6 @@ namespace LunarisForge\Http\Interfaces;
 
 interface Component
 {
-
     /**
      * @param  string  $name
      * @param  mixed  $value

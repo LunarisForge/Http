@@ -89,7 +89,7 @@ class Response
         http_response_code($this->getStatusCode());
 
         foreach ($this->headers->all() as $name => $value) {
-            header($name.': '.$value);
+            header($name . ': ' . $value);
         }
 
         foreach ($this->cookies->all() as $name => $data) {

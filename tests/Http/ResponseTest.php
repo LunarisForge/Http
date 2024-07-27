@@ -138,7 +138,7 @@ class ResponseTest extends TestCase
 
         $expectedAttributes = [
             'TestCookie=TestValue',
-            'expires='.gmdate('D, d M Y H:i:s T', $expiry),
+            'expires=' . gmdate('D, d M Y H:i:s T', $expiry),
             'Max-Age=3600',
             'path=/',
             'domain=example.com',
@@ -159,7 +159,7 @@ class ResponseTest extends TestCase
     private function findCookieHeader(array $headers): string
     {
         foreach ($headers as $header) {
-            if (stripos($header, 'Set-Cookie: '.'TestCookie'.'=') === 0) {
+            if (stripos($header, 'Set-Cookie: ' . 'TestCookie' . '=') === 0) {
                 return $header;
             }
         }
