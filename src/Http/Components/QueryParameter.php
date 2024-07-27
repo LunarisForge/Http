@@ -17,6 +17,14 @@ class QueryParameter implements Component
     /**
      * {@inheritDoc}
      */
+    public function set(string $name, mixed $value): void
+    {
+        $this->queryParams[$name] = $value;
+    }
+
+    /**
+     * {@inheritDoc}
+     */
     public function get(string $key, mixed $default = null): mixed
     {
         return $this->queryParams[$key] ?? $default;

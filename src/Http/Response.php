@@ -4,6 +4,8 @@ namespace LunarisForge\Http;
 
 use Exception;
 use LunarisForge\Http\Enums\HttpStatus;
+use LunarisForge\Http\Components\Header;
+use LunarisForge\Http\Components\Cookie;
 
 class Response
 {
@@ -11,6 +13,16 @@ class Response
      * @var resource|false
      */
     protected $body;
+
+    /**
+     * @var Header
+     */
+    protected Header $headers;
+
+    /**
+     * @var Cookie
+     */
+    protected Cookie $cookies;
 
     /**
      * @param  string  $content
@@ -27,6 +39,46 @@ class Response
 
         fwrite($this->body, $this->content);
         rewind($this->body);
+
+        $this->headers = new Header();
+        $this->cookies = new Cookie();
+    }
+
+    /**
+     * Set a header for the response.
+     *
+     * @param  string  $name
+     * @param  string  $value
+     * @return void
+     */
+    public function setHeader(string $name, string $value): void
+    {
+        $this->headers->set($name, $value);
+    }
+
+    /**
+     * Set a cookie for the response.
+     *
+     * @param  string  $name
+     * @param  string  $value
+     * @param  int  $expires
+     * @param  string  $path
+     * @param  string  $domain
+     * @param  bool  $secure
+     * @param  bool  $httpOnly
+     *
+     * @return void
+     */
+    public function setCookie(
+        string $name,
+        string $value = "",
+        int $expires = 0,
+        string $path = "",
+        string $domain = "",
+        bool $secure = false,
+        bool $httpOnly = false
+    ): void {
+        $this->cookies->set($name, $value, $expires, $path, $domain, $secure, $httpOnly);
     }
 
     /**
@@ -35,6 +87,27 @@ class Response
     public function send(): void
     {
         http_response_code($this->getStatusCode());
+
+        foreach ($this->headers->all() as $name => $value) {
+            header($name . ': ' . $value);
+        }
+
+        foreach ($this->cookies->all() as $name => $data) {
+            if (is_array($data) && isset($data['value'])) {
+                setcookie(
+                    $name,
+                    (string)$data['value'],
+                    [
+                        'expires' => (int)$data['expires'],
+                        'path' => $data['path'],
+                        'domain' => $data['domain'],
+                        'secure' => (bool)$data['secure'],
+                        'httponly' => (bool)$data['httponly'],
+                    ]
+                );
+            }
+        }
+
         echo $this->getContents();
     }
 
@@ -59,7 +132,6 @@ class Response
             return false;
         }
 
-        // Read remaining contents from the stream
         return stream_get_contents($this->body);
     }
 

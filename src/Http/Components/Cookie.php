@@ -17,6 +17,21 @@ class Cookie implements Component
     /**
      * {@inheritDoc}
      */
+    public function set(string $name, mixed $value, int $expiry = 0, string $path = "", string $domain = "", bool $secure = false, bool $httponly = false): void
+    {
+        $this->cookies[$name] = [
+            'value' => $value,
+            'expires' => $expiry,
+            'path' => $path,
+            'domain' => $domain,
+            'secure' => $secure,
+            'httponly' => $httponly,
+        ];
+    }
+
+    /**
+     * {@inheritDoc}
+     */
     public function get(string $key, mixed $default = null): mixed
     {
         return $this->cookies[$key] ?? $default;
