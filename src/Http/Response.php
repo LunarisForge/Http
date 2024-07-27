@@ -57,6 +57,17 @@ class Response
     }
 
     /**
+     * Get a header value for the response.
+     *
+     * @param  string  $name
+     * @return mixed
+     */
+    public function getHeader(string $name): mixed
+    {
+        return $this->headers->get($name);
+    }
+
+    /**
      * Set a cookie for the response.
      *
      * @param  string  $name
@@ -65,7 +76,7 @@ class Response
      * @param  string  $path
      * @param  string  $domain
      * @param  bool  $secure
-     * @param  bool  $httpOnly
+     * @param  bool  $httponly
      *
      * @return void
      */
@@ -76,9 +87,21 @@ class Response
         string $path = "",
         string $domain = "",
         bool $secure = false,
-        bool $httpOnly = false
+        bool $httponly = false
     ): void {
-        $this->cookies->set($name, $value, $expires, $path, $domain, $secure, $httpOnly);
+        $this->cookies->set($name, $value, $expires, $path, $domain, $secure, $httponly);
+    }
+
+    /**
+     * Get a cookie value for the response.
+     *
+     * @param  string  $name
+     *
+     * @return mixed
+     */
+    public function getCookie(string $name): mixed
+    {
+        return $this->cookies->get($name);
     }
 
     /**

@@ -121,6 +121,17 @@ class ResponseTest extends TestCase
     /**
      * @return void
      */
+    public function testGetHeader(): void
+    {
+        $response = new Response('Test content');
+        $response->setHeader('X-Test-Header', 'TestValue');
+
+        $this->assertEquals('TestValue', $response->getHeader('X-Test-Header'));
+    }
+
+    /**
+     * @return void
+     */
     public function testSetCookie(): void
     {
         $response = new Response('Test content');
@@ -152,14 +163,13 @@ class ResponseTest extends TestCase
     }
 
     /**
-     * @param  array<string>  $headers
-     *
+     * @param array<string> $headers
      * @return string
      */
     private function findCookieHeader(array $headers): string
     {
         foreach ($headers as $header) {
-            if (stripos($header, 'Set-Cookie: ' . 'TestCookie' . '=') === 0) {
+            if (stripos($header, 'Set-Cookie: TestCookie=') === 0) {
                 return $header;
             }
         }
