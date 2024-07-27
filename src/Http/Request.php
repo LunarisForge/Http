@@ -97,7 +97,6 @@ class Request
         return $requestMethod;
     }
 
-
     /**
      * @return array<mixed>|false|int|string|null
      */

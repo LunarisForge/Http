@@ -82,7 +82,7 @@ class ResponseTest extends TestCase
         $body = $response->getBody();
         $this->assertIsResource($body, 'The body should be a valid resource.');
 
-//        rewind($body);
+        rewind($body);
         $this->assertEquals('Test content', stream_get_contents($body));
     }
 
@@ -99,5 +99,22 @@ class ResponseTest extends TestCase
         $property->setValue($response, false);
 
         $this->assertFalse($response->getContents());
+    }
+
+    /**
+     * @return void
+     */
+    public function testSetHeader(): void
+    {
+        $response = new Response('Test content');
+        $response->setHeader('X-Test-Header', 'TestValue');
+
+        // Start output buffering
+        ob_start();
+        $response->send();
+        ob_end_clean();
+
+        $headers = xdebug_get_headers();
+        $this->assertContains('X-Test-Header: TestValue', $headers);
     }
 }

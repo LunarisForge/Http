@@ -13,8 +13,13 @@ class Response
     protected $body;
 
     /**
-     * @param  string  $content
-     * @param  HttpStatus  $status
+     * @var array<string, string>
+     */
+    protected array $headers = [];
+
+    /**
+     * @param string $content
+     * @param HttpStatus $status
      * @throws Exception
      */
     public function __construct(protected string $content, protected HttpStatus $status = HttpStatus::OK)
@@ -30,11 +35,28 @@ class Response
     }
 
     /**
+     * Set a header for the response.
+     *
+     * @param string $name
+     * @param string $value
+     * @return void
+     */
+    public function setHeader(string $name, string $value): void
+    {
+        $this->headers[$name] = $value;
+    }
+
+    /**
      * @return void
      */
     public function send(): void
     {
         http_response_code($this->getStatusCode());
+
+        foreach ($this->headers as $name => $value) {
+            header("$name: $value");
+        }
+
         echo $this->getContents();
     }
 
