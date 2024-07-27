@@ -17,6 +17,14 @@ class ServerParameter implements Component
     /**
      * {@inheritDoc}
      */
+    public function set(string $name, mixed $value): void
+    {
+        $this->serverParams[$name] = $value;
+    }
+
+    /**
+     * {@inheritDoc}
+     */
     public function get(string $key, mixed $default = null): mixed
     {
         return $this->serverParams[$key] ?? $default;
