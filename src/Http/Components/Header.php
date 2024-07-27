@@ -25,7 +25,7 @@ class Header implements Component
     /**
      * {@inheritDoc}
      */
-    public function set(string $name, string $value): void
+    public function set(string $name, mixed $value): void
     {
         $this->headers[$name] = $value;
     }

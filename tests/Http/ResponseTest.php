@@ -117,4 +117,52 @@ class ResponseTest extends TestCase
         $headers = xdebug_get_headers();
         $this->assertContains('X-Test-Header: TestValue', $headers);
     }
+
+    /**
+     * @return void
+     */
+    public function testSetCookie(): void
+    {
+        $response = new Response('Test content');
+        $expiry = time() + 3600;
+        $response->setCookie('TestCookie', 'TestValue', $expiry, '/', 'example.com', true, true);
+
+        // Start output buffering
+        ob_start();
+        $response->send();
+        ob_end_clean();
+
+        $headers = xdebug_get_headers();
+        $cookieHeader = $this->findCookieHeader($headers);
+        $this->assertNotEmpty($cookieHeader, 'Set-Cookie header not found');
+
+        $expectedAttributes = [
+            'TestCookie=TestValue',
+            'expires='.gmdate('D, d M Y H:i:s T', $expiry),
+            'Max-Age=3600',
+            'path=/',
+            'domain=example.com',
+            'secure',
+            'HttpOnly',
+        ];
+
+        foreach ($expectedAttributes as $attribute) {
+            $this->assertStringContainsString($attribute, $cookieHeader);
+        }
+    }
+
+    /**
+     * @param  array<string>  $headers
+     *
+     * @return string
+     */
+    private function findCookieHeader(array $headers): string
+    {
+        foreach ($headers as $header) {
+            if (stripos($header, 'Set-Cookie: '.'TestCookie'.'=') === 0) {
+                return $header;
+            }
+        }
+        return '';
+    }
 }
